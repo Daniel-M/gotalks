@@ -1,0 +1,134 @@
+Go FAP: Go Frameworkless Architectural Patterns
+For REST API servers
+7 Mar 2019
+Tags: stdlib, server,http 
+
+Daniel Mejía R
+Medellín, Colombia
+http://daniel-m.github.io
+@danielmejia55_
+danielmejia55@gmail.com
+
+* But wait, why Go?
+
+
+- A nice language with a nice mascot
+- Project starts at Google in 2007 (by Griesemer, Pike, Thompson)
+- Open source release in November 2009
+- More than 900 contributors have joined the project
+- Version 1.0 release in March 2012
+- _[...]_
+- Version 1.12 released the past February 25th, 2019
+
+.image _figs/golang-logo.png 170 _ 
+
+.link https://golang.org
+
+* Main features 
+
+- Fathers: Russ Cox, Robert Griesemer, Ian Lance Taylor, Rob Pike, Ken Thompson
+
+- An Open-source general progamming language (BSD-3)
+- Provides All the safety of a *static* *type* *system*
+- Can feel like a *dynamic* *language* thanks to the _type_ _inference_ _system_, map, slices
+- *garbage-collected* (no _free_, _delete_)
+- Out of the box *concurrency*
+- Compiles down to machine language (Compiles amazingly fast, goal is ~10% of C)
+- Sort of *object-oriented* but w/o classes, *builtin* *reflection*(mutability)
+- First-class functions with *closures*
+- Implicitly satisfied *interfaces*
+
+* Main features 
+
+- Monolithic executables (no need to ship libraries) 
+- Enforces a single *code* *style* (no need of code standards) 
+- Native code *linter* 
+- Native *race* *condition* *analyzer*
+- *git* oriented (packages downloaded from git) 
+- Available on all major platforms (`Linux`, `Windows`, `macOS`, `Android`, `iOS`, ...) and for many architectures (`amd64`, `arm`, `arm64`, `i386`, `s390x`, `mips64`, ...)
+- *Cross* *compilation* as easy as changing an environmental variable
+- Very well *documented*,  in fact the linter warns documenting code
+
+- I could go on _all_ day... Even this slides where possible thanks to Go
+
+
+* Good old Hello World
+
+.play _code/hello.go
+
+ $ go run hello.go
+ Hello from Go
+
+* Creating a HTTP server with the standard library
+
+* The net/http package 
+
+- The `net/http` package provides standard library methods to build HTTP/HTTPS servers
+
+.play _code/http.go 
+
+* Let's do something more advanced 
+
+- Create a logger 
+.play _code/httpimproved.go /START_INFO/,/STOP_INFO/
+
+- Create a model for the responses
+.play _code/httpimproved.go /START_STRUCT/,/STOP_STRUCT/
+
+- We would like to create a handler for the requests,  which filters by method and route
+
+* Creating a handler 
+
+- We need to filter out all the requests that do no correspond to our route
+.play _code/httpimproved.req.go /START_HOMEHANDLERREQ/,/STOP_HOMEHANDLERREQ/
+
+- And filter according to the method
+.play _code/httpimproved.req.go /START_REQMETHOD/,/STOP_REQMETHOD/
+
+* Complete handler
+
+.link https://play.golang.org/p/6argW-mg_Gq
+.play _code/httpimproved.go /START_HOMEHANDLER/,/STOP_HOMEHANDLER/
+
+
+* The main function
+
+- http package provides a `ServeMux`. A struct that dispatches requests into go-routines (Concurrent threads of the go runtime)
+- http package implements something called `DefaultServeMux` which is a `ServeMux` 
+
+.play _code/httpimproved.go /START_MAIN/,/STOP_MAIN/
+
+* How about using a framework?
+
+* Popular frameworks 
+
+There's a huge amount of web frameworks out there, 
+
+- https://github.com/go-chi/chi  
+- https://github.com/julienschmidt/httprouter   
+- https://github.com/gorilla/mux  
+- https://github.com/zenazn/goji/  
+- https://github.com/go-swagger/go-swagger   
+- https://github.com/manyminds/api2go  
+- https://github.com/labstack/echo   
+
+One of the easiest and most popular is `gorilla/mux` which is part of the
+*gorilla* *web* *toolkit*,  a bigger web framework
+
+.link http://www.gorillatoolkit.org/
+
+* A fast look into gorilla/mux
+
+.link https://play.golang.org/p/mKykhjzF5Q9
+.play _code/gorilla.go /START_MAIN/,/STOP_MAIN/
+
+* How about going frameworkless?
+
+* How about going frameworkless?
+- "_Best_ _framework_ _is_ _no_ _framework_",  the zen of FAP
+
+- In order to present FAP we better look at some code, 
+
+.link https://play.golang.org/p/9eunLZgr1iI goservetiles
+.link https://play.golang.org/p/HVZtzflRy-j ioTemp 
+.link https://gitlab.com/paralleloai-dev/geomongo geomongo
